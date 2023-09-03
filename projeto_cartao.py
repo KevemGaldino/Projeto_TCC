@@ -21,14 +21,10 @@ def valida_dados(cod_cartao):
         # sys.exit()
     # Passando dados do cliente para o Banco de Dados
     else:
-        comando_insere = f"""INSERT INTO Dados_de_cartoes VALUES ('', '', '{cod_cartao}', '')"""  #'{nome_cartao}', '{data_cartao}', '{numero_cartao}'
+        comando_insere = f"""INSERT INTO Dados_de_cartoes VALUES ('{cod_cartao}', '{nome_cartao}', '{data_cartao}', '{numero_cartao}')"""
         cursor.execute(comando_insere)
         cursor.commit()
         print('Dados cadastrados com sucesso!')
-
-
-# def valida_email(nome_cartao):
-#     consulta_email = f"""SELECT email FROM Clientes WHERE  """
 
 
 
@@ -49,8 +45,8 @@ cursor = conexao.cursor()
 # Recebendo dados do cliente
 print('Olá, agora iremos verificar seus dados para aprovação da sua compra. Por favor, forneça os dados abaixo: ')
 
-# nome_cartao = input('Digite o nome do proprietário do cartão: ')
-# data_cartao = input('Digite a data de vencimento do cartão: ')
+nome_cartao = input('Digite o nome do proprietário do cartão: ')
+data_cartao = input('Digite a data de vencimento do cartão: ')
 cvc_cartao = int(input('Digite o código de seguraça (CVC ou CVV) do cartão: '))
 numero_cartao = input('Digite o número do cartão de crédito: ')
   
