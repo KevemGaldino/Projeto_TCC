@@ -6,6 +6,15 @@ Esse projeto tem como objetivo fazer a validação do nome do cartão de crédit
 # EXPLICANDO AS IMPORTAÇÕES
 
 import luhn:
+O algoritmo de Luhn é bem utilizado para validar números de cartões de crédito. Ele funciona fazendo uma soma ponderada dos dígitos do número, seguido por uma verificação se a soma dos valores é um múltiplo de 10.
+
+Os passos básicos para o algoritimo de Luhn são:
+
+É necessário começar da direita para a esquerda, ou seja, se o número do cartão for 123456789, é preciso invertê-lo, 987654321;
+
+Após isso, cada segundo dígito é duplicado, caso a duplicação for maior que 9, deve-se subtrair 9 desse resultado;
+
+Em seguida, deve ser feito a soma de todos os dígitos, se o resultado da soma for um múltiplo de 10, então o número do cartão é válido.
 
 import pyodbc:
 
