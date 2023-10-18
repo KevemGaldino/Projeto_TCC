@@ -17,6 +17,13 @@ Após isso, cada segundo dígito é duplicado, caso a duplicação for maior que
 Em seguida, deve ser feito a soma de todos os dígitos, se o resultado da soma for um múltiplo de 10, então o número do cartão é válido.
 
 import pyodbc:
+O módulo pyodbc é uma interface do Python para acessar um banco de dados utilizando o ODBC (Open Database Connectivity). O ODBC é uma API (Aplication Programing Interface) que permite várias linguagens de programação criar conexões com diferentes banco de dados, basta somente especificar o driver correto para qual SGBD (Sistema Gerenciador de Banco de Dados) vai ser aplicado.
+Para utilizar o pyodbc, é necessário seguir alguns passos, dentre eles são: 
+- Instalar o módulo com o comando "pip install pyodbc";
+- Criar a conexão com o comando "pyodbc.connect()", é necessário fornecer uma string informando os dados de acesso como driver, servidor e nome do banco de daods.
+- Criar um cursor com o comando "connection.cursor()" para executar as consultas SQL e obter dados.
+- Criar uma recuperação de resultados com o comando "cursor.fetchone()" para retornar valoress específicos.
+Em suma, o pyodbc oferece uma maneira flexível e eficiente para trabalhar com diferentes tipos de bancos de dados por meio da linguagem Python.
 
 import difflib:
 
