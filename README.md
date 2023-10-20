@@ -26,6 +26,10 @@ Para utilizar o pyodbc, é necessário seguir alguns passos, dentre eles são:
 Em suma, o pyodbc oferece uma maneira flexível e eficiente para trabalhar com diferentes tipos de bancos de dados por meio da linguagem Python.
 
 import difflib:
+O módulo difflib em Python fornece uma série de classes e funções para comparações de sequências, especialmente para calcular diferenças e semelhança entre strings, listas ou outras sequências. Normalmente, ela é utilizada para encontrar diferenças entre dois textos ou gerar patches para aplicar alterações de um texto para o outro.
+
+A classe utilizada no código é a SequenceMatcher, onde compara duas strings e calcula uma similariedade entre elas usando o método ratio(), variando de 0.0 a 1.0. 
+Como a intenção é realizar a comparação do nome 
 
 import time:
 
