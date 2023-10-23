@@ -95,6 +95,30 @@ def enviar_sms(numero_destino, mensagem):
 
 
 
+# Função de validação do código enviado
+def valida_codigo(codigo_aleatorio):
+    verifica_codigo = str(input('Digite seu código recebido por SMS: '))
+    if verifica_codigo == codigo_aleatorio:
+        print('Compra aprovada!')
+        return True
+    else:
+        print(f'Opção inválida, tente novamente!')
+        return False
+        
+
+
+# Permitindo somente SIM ou NÃO para o usuário digitar
+def opcao_invalida():
+    while True:
+        criar_novo_codigo = str(input('Deseja enviar um novo código? [SIM/NAO]')).upper()
+        if criar_novo_codigo in ['SIM', 'NAO']:
+            return criar_novo_codigo
+        else:
+            print('Opção inválida!')
+            continue
+
+
+
 # INICIO DO PROGRAMA
 
 #--------------------------------------------------------#
@@ -123,18 +147,22 @@ numero_cartao = input('Digite o número do cartão de crédito: ')
 cpf_titular = input('Digite o CPF do titular do cartão: ')
 
 # validar_cartao(numero_cartao)
-valida_dados(cvc_cartao)
 
 
 # REALIZANDO A COMPARAÇÃO DO NOME DO CARTÃO COM O E-MAIL DE CADASTRO DA CONTA
 similaridade_nome_email = valida_email(nome_cartao)
-limiar_similaridade = 0.5  # Defina um limiar de similaridade adequado
+limiar_similaridade = 0.7  # Defina um limiar de similaridade adequado
 similaridade_percentual = similaridade_nome_email * 100
+
+max_tentativas = 5
+
 
 if similaridade_nome_email >= limiar_similaridade:
     print('Em análise, por favor aguarde...')
     time.sleep(5)
     print(f"A similariedade é {similaridade_percentual:.1f}%. O nome do cartão é similar ao nome no email pessoal.")
+    # ARMAZENANDO E VERIFICANDO DADOS
+    valida_dados(cvc_cartao)
     print('Sua compra será analisada, em breve enviaremos um retorno!')
 else:
     print('Em análise, por favor aguarde...')
@@ -142,59 +170,41 @@ else:
     print(f"A similariedade é {similaridade_percentual:.1f}%. O nome do cartão não é similar ao nome no email pessoal.")
     print('Portanto, estamos analisando o CPF digitado, por favor aguarde...')
     time.sleep(5)
-    # ENVIO DE CÓDIGO DE VERIFICAÇÃO POR SMS
-    codigo_aleatorio = gera_codigo()
-    numero_destino = busca_cpf(cpf_titular)
-    enviar_sms(numero_destino, mensagem)
-    mensagem = f'Olá, seu código de verificação é {codigo_aleatorio}'
-
    
-    cont = 0
-    while True:
-        cont += 1
-        verifica_codigo = str(input('Digite seu código recebido por SMS: '))
-        if verifica_codigo == codigo_aleatorio:
-            print('Compra aprovada!')
-            break
-        else:
-            print('Código incorreto, tente novamente!')
-            time.sleep(2)
-            criar_novo_codigo = str(input('Deseja enviar um novo código? [SIM/NAO]')).upper()
-            if criar_novo_codigo == 'SIM':
-                novo_codigo = gera_codigo()
-                mensagem = f'Olá, seu código de verificação é {novo_codigo}'
-                enviar_sms(numero_destino, mensagem)
-                # print(codigo_aleatorio)
-                verifica_codigo = str(input('Digite seu código recebido por SMS: '))
-                if verifica_codigo == novo_codigo:
-                    print('Compra aprovada!')
-                    break
-                else:
-                    print('Codigo incorreto, você tem mais 3 tentativas!')
-                    for i in range(0,3):
-                        i += 1
-                        verifica_codigo = str(input('Digite seu código recebido por SMS: '))
-                        if i == 1:
-                            print('Você tem apenas mais 2 tentativas!')
-                        if i == 2:
-                            print('Você tem apenas mais 1 tentativa!')
-                        if i == 3:
-                            print('Número de tentativas encerrado\nPor motivos de segurança, estaremos encerrando o sistema!')
-                            print('ENCERRANDO...')
-                            time.sleep(2)
-                            sys.exit()
-            elif criar_novo_codigo == 'NAO':
-                print('Não enviamos outro código, digite o correto!')
-                if cont >= 7:
-                    print('Muitas tentativas incorretas, forneça os dados corretos!')
-                    print('ENCERRANDO O SISTEMA...')
-                    time.sleep(2)
-                    sys.exit()
-                else:
-                    continue
-            else:
-                print('Opção inválida!')
+    # ENVIO DE CÓDIGO DE VERIFICAÇÃO POR SMS
+    codigo_aleatorio = gerar_codigo()
+    numero_destino = busca_cpf(cpf_titular)
+    if numero_destino == False:
+        print('Sua compra será analisada, em breve daremos um retorno!')
+    else:
+        mensagem = f'Olá, seu código de verificação é {codigo_aleatorio}'
+        # enviar_sms(numero_destino, mensagem)
 
+        # print(numero_destino)
+        print(codigo_aleatorio)
+        tentativa = 0
+        while True:
+            tentativa += 1
+
+            if valida_codigo(codigo_aleatorio):
+                break
+
+            if tentativa <= max_tentativas:
+                criar_novo_codigo = opcao_invalida()
+
+                if criar_novo_codigo == 'SIM':
+                    codigo_aleatorio = gerar_codigo() 
+                    mensagem = f'Olá, seu código de verificação é {codigo_aleatorio}'
+                    print(mensagem)
+                    tentativa = 0
+
+                elif criar_novo_codigo == 'NAO':
+                    print('Não enviamos outro código, digite o correto!')
+                    continue
+
+            else:
+                print(f'Número de tentativas excedido ({tentativa}), encerrando...')
+                sys.exit()
 
 
 
