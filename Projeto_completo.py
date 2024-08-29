@@ -78,9 +78,9 @@ def gera_codigo():
 # Função para envio do código por SMS
 def enviar_sms(numero_destino, mensagem):
     # Credenciais da conta Twilio
-    account_sid = 'ACb74d0d6a13873530ab432f920985e37c'
-    auth_token = 'd28bb1144aafcb98047cdc7793dd4537'
-    numero_twilio = '(256) 286-5029'
+    account_sid = ''
+    auth_token = ''
+    numero_twilio = ''
 
     client = Client(account_sid, auth_token)
 
